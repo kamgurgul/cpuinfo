@@ -1,1 +1,9 @@
 build --symlink_prefix=/ # Out of source build
+build:ios --apple_platform_type=ios
+# build:ios --apple_bitcode=embedded 
+build:ios --copt=-fembed-bitcode
+build:ios_simulator --config=ios
+build:ios_simulator --cpu=x86_64
+build:ios_device --config=ios
+build:ios_device --cpu=ios_arm64
+--use_top_level_targets_for_symlinks

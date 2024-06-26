@@ -1,1 +1,2 @@
 module(name = "cpuinfo")
+bazel_dep(name = "rules_apple", version = "3.5.1", repo_name = "build_bazel_rules_apple")

@@ -316,3 +316,7 @@ LDFLAGS+= $(pkg-config --libs libcpuinfo)
   - [x] Using sysfs (Linux)
   - [x] Using chipset name (ARM/Linux)
 
+
+## Building iOS
+bazel build --config=ios_simulator libcpuinfo
+bazel build --config=ios_device libcpuinfo

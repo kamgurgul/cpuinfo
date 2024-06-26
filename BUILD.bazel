@@ -8,6 +8,11 @@ licenses(["notice"])
 
 exports_files(["LICENSE"])
 
+load("@build_bazel_rules_apple//apple:ios.bzl", "ios_static_framework")
+load("@build_bazel_rules_apple//apple:apple.bzl", "apple_xcframework")
+load("@build_bazel_rules_apple//apple:apple.bzl", "apple_static_xcframework")
+load("@build_bazel_rules_apple//apple:ios.bzl", "ios_framework")
+
 C99OPTS = [
     "-std=gnu99",  # gnu99, not c99, because dprintf is used
     "-Wno-vla",
@@ -215,13 +220,66 @@ cc_library(
     ],
 )
 
-cc_library(
+objc_library(
     name = "cpuinfo_with_unstripped_include_path",
     hdrs = [
         "include/cpuinfo.h",
     ],
     deps = [
         ":cpuinfo_impl",
+    ],
+)
+
+ios_static_framework(
+    name = "libcpuinfo",
+    bundle_name = "libcpuinfo",
+    minimum_os_version = "15.3",
+    hdrs = glob(["include/cpuinfo.h"]),
+    deps = [":cpuinfo"],
+)
+
+apple_static_xcframework(
+    name = "libcpuinfo9",
+    deps = [":cpuinfo_with_unstripped_include_path"],
+    ios = {
+        "simulator": ["arm64","x86_64"],
+        "device": ["arm64", "x86_64"],
+    },
+    minimum_os_versions = {"ios": "15.3"},
+    minimum_deployment_os_versions = {"ios": "15.3"},
+    public_hdrs = glob(["include/cpuinfo.h"]),
+)
+
+apple_xcframework(
+    name = "libcpuinfo1",
+    bundle_id = "com.kgurgul.cpuinfo.shared",
+    deps = [":cpuinfo_with_unstripped_include_path",],
+    # families_required = { "ios": "iphone" },
+    infoplists = ["Info.plist"],
+    ios = {
+        "simulator": ["x86_64"],
+        "device": ["arm64", "x86_64"],
+    },
+    minimum_deployment_os_versions = {"ios": "15.3"},
+    minimum_os_versions = {"ios": "15.3"},
+    public_hdrs = glob(["include/cpuinfo.h"]),
+)
+
+ios_framework(
+    name = "libcpuinfo2",
+    bundle_id = "com.kgurgul.cpuinfo.shared",
+    hdrs = [
+        "include/cpuinfo.h",
+    ],
+    families = [
+        "iphone",
+        "ipad",
+    ],
+    infoplists = ["Info.plist"],
+    minimum_os_version = "15.3",
+    visibility = ["//visibility:public"],
+    deps = [
+        ":cpuinfo_with_unstripped_include_path",
     ],
 )
 
