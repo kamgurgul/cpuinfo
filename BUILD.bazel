@@ -231,7 +231,7 @@ objc_library(
 )
 
 ios_static_framework(
-    name = "libcpuinfo",
+    name = "libcpuinfo5",
     bundle_name = "libcpuinfo",
     minimum_os_version = "15.3",
     hdrs = glob(["include/cpuinfo.h"]),
@@ -251,14 +251,13 @@ apple_static_xcframework(
 )
 
 apple_xcframework(
-    name = "libcpuinfo1",
+    name = "libcpuinfo",
     bundle_id = "com.kgurgul.cpuinfo.shared",
     deps = [":cpuinfo_with_unstripped_include_path",],
     # families_required = { "ios": "iphone" },
     infoplists = ["Info.plist"],
     ios = {
-        "simulator": ["x86_64"],
-        "device": ["arm64", "x86_64"],
+        "simulator": ["arm64"],
     },
     minimum_deployment_os_versions = {"ios": "15.3"},
     minimum_os_versions = {"ios": "15.3"},

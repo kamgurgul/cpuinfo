@@ -4,7 +4,7 @@
 #include <stdint.h>
 
 #include <cpuinfo.h>
-#include <cpuinfo/common.h>
+#include <common.h>
 
 enum cpuinfo_arm_chipset_vendor {
 	cpuinfo_arm_chipset_vendor_unknown = 0,
