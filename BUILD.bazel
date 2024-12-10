@@ -239,25 +239,26 @@ ios_static_framework(
 )
 
 apple_static_xcframework(
-    name = "libcpuinfo9",
+    name = "libcpuinfo",
     deps = [":cpuinfo_with_unstripped_include_path"],
     ios = {
-        "simulator": ["arm64","x86_64"],
-        "device": ["arm64", "x86_64"],
+        "simulator": ["x86_64"],
+       # "device": ["arm64"],
     },
-    minimum_os_versions = {"ios": "15.3"},
-    minimum_deployment_os_versions = {"ios": "15.3"},
+    minimum_os_versions = {"ios": "15.0"},
+    minimum_deployment_os_versions = {"ios": "15.0"},
     public_hdrs = glob(["include/cpuinfo.h"]),
 )
 
 apple_xcframework(
-    name = "libcpuinfo",
+    name = "libcpuinfo9",
     bundle_id = "com.kgurgul.cpuinfo.shared",
-    deps = [":cpuinfo_with_unstripped_include_path",],
+    deps = [":cpuinfo",],
     # families_required = { "ios": "iphone" },
     infoplists = ["Info.plist"],
     ios = {
-        "simulator": ["arm64"],
+        "simulator": ["arm64", "x86_64"],
+        "device": ["arm64", "x86_64"],
     },
     minimum_deployment_os_versions = {"ios": "15.3"},
     minimum_os_versions = {"ios": "15.3"},
